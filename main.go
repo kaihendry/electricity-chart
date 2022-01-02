@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"sort"
@@ -20,19 +19,25 @@ type ElecBill struct {
 
 func httpserver(w http.ResponseWriter, _ *http.Request) {
 
-	var data []ElecBill
-	data = append(data, ElecBill{Date: time.Date(2021, time.December, 1, 0, 0, 0, 0, time.UTC),
-		Usage: 186.57, PriceKwh: 1.1526})
-	data = append(data, ElecBill{Date: time.Date(2021, time.November, 1, 0, 0, 0, 0, time.UTC),
-		Usage: 1218.95, PriceKwh: 0.3693})
-	data = append(data, ElecBill{Date: time.Date(2021, time.October, 1, 0, 0, 0, 0, time.UTC),
-		Usage: 1285.23, PriceKwh: 0.6343})
+	data := []ElecBill{
+		{Date: time.Date(2021, time.December, 1, 0, 0, 0, 0, time.UTC),
+			Usage: 186.57, PriceKwh: 1.1526},
+		{Date: time.Date(2021, time.November, 1, 0, 0, 0, 0, time.UTC),
+			Usage: 1218.95, PriceKwh: 0.3693},
+		{Date: time.Date(2021, time.October, 1, 0, 0, 0, 0, time.UTC),
+			Usage: 1285.23, PriceKwh: 0.6343},
+		{Date: time.Date(2021, time.September, 1, 0, 0, 0, 0, time.UTC),
+			Usage: 1310.33, PriceKwh: 0.1626},
+		{Date: time.Date(2021, time.August, 1, 0, 0, 0, 0, time.UTC),
+			Usage: 1390.82, PriceKwh: 0.1476},
+		{Date: time.Date(2021, time.July, 1, 0, 0, 0, 0, time.UTC),
+			Usage: 1278.64, PriceKwh: 0.1836},
+	}
 
 	// sort by Date
 	sort.Slice(data, func(i, j int) bool {
 		return data[i].Date.Before(data[j].Date)
 	})
-	log.Printf("%+v", data)
 
 	bar := charts.NewBar()
 	bar.SetGlobalOptions(
